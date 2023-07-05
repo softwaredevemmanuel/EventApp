@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment details page</title>
+
+    <link rel="stylesheet" href="{%static '/css/paymentDetails.css' %}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="{% static '/js/script.js' %}"></script>
+
+    {% comment %} <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous"> {% endcomment %}
+
+
+
+</head>
+
+<body>
+
+        
+    
+    <main>
+        {% for message in messages %}
+            <div  style="text-align: center; color:white;"><strong>{{message}}</strong></div>
+        {% endfor %}
+        <article>
+
+            <section class="section product" aria-label="product">
+                <div class="container">
+
+                    <div class="product-slides">
+
+                        <div class="slider-banner" data-slider>
+                            <figure class="product-banner">
+                                <img src="{{event.header_images.url}}" width="600" height="600" loading="lazy"
+                                    alt="Nike Sneaker" class="img-cover">
+                            </figure>
+                        </div>
+
+                    </div>
+
+                    <div class="product-content">
+
+                        <h1 class="h1 product-title">{{customer.event_name}} </h1>
+
+                        <div class="wrapper">
+                            <span class="price" data-total-price>Email: </span>
+                            <span class="badge">{{customer.email}} </span>
+                        </div>
+            
+
+                        <div class="wrapper">
+                            <span class="price" data-total-price> Phone </span>
+                            <span class="badge">{{customer.phone}}</span>
+                        </div>
+
+            
+                    </div>
+
+                    <div class="myform">
+                        <h2>Make Payments for {{customer.event_name}} Event</h2>
+                        <div class="wrapper">
+                            <span class="price" data-total-price> Holding on   </span>
+                            <span class="badge">{{customer.event_date}}</span>
+                        </div>
+              
+                        <div class="test">
+                            <script src="https://js.paystack.co/v1/inline.js"></script> 
+                            <button class="cart-btn"  onclick = "payWithPayStack()" id="django-paystack-button">
+                                <span class="span">Pay: N{{customer.amount}}</span>
+                            </button>
+
+                        </div>
+                        
+                    </div>
+
+                </div>
+
+            </section>
+
+
+        </article>
+    </main>
+
+
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+    <script>
+        function payWithPayStack(){
+            let currency ="NGN";
+            let plan = "";
+            let ref = "{{customer.ref}}"
+            let obj = {
+                key:'{{paystack_public_key}}',
+                email: '{{customer.email}}',
+                amount: '{{customer.amount_value}}',
+                ref: ref,
+                callback: function(response){
+                    window.location.href = "{%url 'verify-payment' customer.ref%}";
+                },
+               
+              
+            }
+            if(Boolean(currency)){
+                obj.currency = currency.toUpperCase()
+            }
+            if(Boolean(plan)){
+                obj.plan = plan;
+            }
+            var handler = PaystackPop.setup(obj);
+            handler.openIframe();
+        }
+       
+    </script>
+    
+
+</body>
+
+</html>

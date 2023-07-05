@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment details page</title>
+
+    <link rel="stylesheet" href="{%static '/css/paymentDetails.css' %}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+
+
+</head>
+
+<body>
+    {% for message in messages %}
+    <div  style="text-align: center; color:green;"><strong>{{message}}</strong></div>
+    {% endfor %}
+    <main>
+        <article>
+
+            <section class="section product" aria-label="product">
+                <div class="container">
+
+                    <div class="product-slides">
+
+                        <div class="slider-banner" data-slider>
+                            <figure class="product-banner">
+                                <img src="{{event.header_images.url}}" width="600" height="600" loading="lazy"
+                                    alt="Nike Sneaker" class="img-cover">
+                            </figure>
+                        </div>
+
+                    </div>
+
+                    <div class="product-content">
+
+                        <h1 class="h1 product-title">{{customer.event_name}} </h1>
+
+                        <div class="wrapper">
+                            <span class="price" data-total-price>Email: </span>
+                            <span class="badge">{{customer.email}} </span>
+                        </div>
+            
+
+                        <div class="wrapper">
+                            <span class="price" data-total-price> Phone </span>
+                            <span class="badge">{{customer.phone}}</span>
+                        </div>
+
+            
+                    </div>
+
+                    <div class="myform">
+                        <h2>Register for {{customer.event_name}} Event</h2>
+                        <div class="wrapper">
+                            <span class="price" data-total-price> Holding on   </span>
+                            <span class="badge">{{customer.event_date}}</span>
+                        </div>
+              
+                        <div class="test">
+
+                            <button class="cart-btn">
+                               <a href = "{% url 'freebooking' customer.ref%}"> Register</a>
+                            </button>
+
+
+                        </div>
+                        
+                    </div>
+
+                </div>
+
+            </section>
+
+
+        </article>
+    </main>
+
+
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    
+
+</body>
+
+</html>

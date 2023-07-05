@@ -10,6 +10,13 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+import os
+
+
+PAYSTACK_SECRET_KEY = 'sk_test_645277eefa0e9c621e4eaf1b06de642c56dc4375'
+PAYSTACK_PUBLIC_KEY = 'pk_test_7423669631139e962499ac54324490e6ef999137'
+
+
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -25,7 +32,7 @@ SECRET_KEY = 'django-insecure-gu&t6c(b!j4%t2=vh%%9vnhz1c*8u#y67*cbnx_!t4#p@26(xe
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['.vercel.app']
+ALLOWED_HOSTS = ['.vercel.app', '127.0.0.1']
 
 
 # Application definition
@@ -38,6 +45,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "UserSection",
+    "AdminSection",
+
 
 ]
 
@@ -119,7 +128,22 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')
+]
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+EMAIL_HOST = 'smtp.mailtrap.io'
+EMAIL_HOST_USER = 'c2b55ff16ac136'
+EMAIL_HOST_PASSWORD = 'cab34aa79a337b'
+EMAIL_PORT = '2525'

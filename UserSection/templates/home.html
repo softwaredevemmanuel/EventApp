@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Application</title>
+
+
+    <!-- font awesome cdn link  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <!-- custom css file link  -->
+    <link rel="stylesheet" href="{% static '/css/index_style.css' %}">
+    <script src="https://kit.fontawesome.com/3b31762e2b.js" crossorigin="anonymous"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+
+
+    {% comment %} <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script> {% endcomment %}
+
+
+
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+      
+        gtag('config', 'G-EZ1VK5SFBE');
+      </script>
+
+
+</head>
+<body class="mobile">
+
+<nav>
+    <div class="container nav-wrapper">
+        <div class="brand">
+            <a href="{%url 'user_events_page' %}">
+            <img src="https://cdna.artstation.com/p/users/avatars/001/971/658/large/67d915ace8c2c8ababfaed092b89af42.jpg?1604314945" width="80" height="50" padding="5px" alt="Event XYZ Logo">
+            </a>
+            <span><strong>Event XYZ</strong></span>
+        </div>
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <ul class="nav-list">  
+           
+            <li>
+                <a href="#">Order Events By...</a>
+               
+                <ul class="dropdown-list">
+                    <li><a href="{% url 'order_by_date_accend' %}">Accending Order</a></li>
+                    <li><a href="{% url 'order_by_date_decend' %}">Decending Order</a></li>
+                    <li><a href="{% url 'free_event_page' %}">Free Order </a></li>
+                    <li><a href="{% url 'paid_event_page' %}">Paid Order </a></li>
+                </ul>
+            </li> 
+
+            <li>               
+                <ul class="show">
+                    <li><a href="{% url 'order_by_date_accend' %}">Accending Order</a></li>
+                    <li><a href="{% url 'order_by_date_decend' %}">Decending Order</a></li>
+                    <li><a href="{% url 'free_event_page' %}">Free Order </a></li>
+                    <li><a href="{% url 'paid_event_page' %}">Paid Order </a></li>
+                </ul>
+            </li>
+
+            {%if not  user.is_superuser %}
+            <li>
+                <a href="#" id="admin-link">Admin Section</a>
+                <h3 class = "login_header" id="login-header">Click link above to login</h3>
+                <form class = "login-form" action= "" method="POST">
+                    {% csrf_token %}
+                    <ul class="form">
+                        <li><h3>Enter Login Details</h3></li>
+                        <li><input class="box" type="text" required onkeyup="this.setAttribute('value', this.value);" name="username" placeholder="Username" value=""></li>
+                        <li><input class="box" type="password" required onkeyup="this.setAttribute('value', this.value);" name="password" placeholder="Password" value=""></li>
+                        <li><input type="submit" name="sign-in" value="Log In" class="btn"></li>
+                    </ul>
+                </form>
+            </li>
+
+            
+            {%else%}
+            <li>
+                <a href="#">Hello {{user}}</a>
+                <ul class="form">
+                    <li>
+                        <a href="{%url 'admin_events_page' %}">Admin Dashboard</a>
+                    </li>
+
+                    <li>
+                        <a href="{%url 'logout' %}">
+                        <input type="submit" name="log-out" value="Log Out" class="btn">
+                        </a>
+                    </li><br>
+                </ul>
+            </form>
+
+            </li>
+            {%endif%}
+           
+        </ul>
+    </div> 
+</nav>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/script.js"></script>
+
+
+{% block home%}
+
+{% endblock%}
+
+{%block details%}
+
+{%endblock%}
+
+<!-- blogs section ends -->
+
+
+<div class="footer" id="footer">
+
+    <div class="box-container">
+
+        <div class="box">
+            <div class="content">
+                <div class="footer-left">
+
+                    <h4>Emma<span>Developer</span></h4>
+
+                    <p class="footer-links">
+                        <a href="#">Home</a>
+                        |
+                        <a href="#">About</a>
+                        |
+                        <a href="#">Contact</a>
+                        |
+                        <a href="#">Blog</a>
+                    </p>
+
+                    <p class="footer-company-name">Copyright © 2021 <strong>EmmaDeveloper</strong> All rights reserved</p>
+                
+                </div>
+            </div>
+        </div>
+
+        <div class="box">
+            <div class="content">
+                <div class="footer-center">
+                    <div>
+                        <i class="fa fa-map-marker"></i>
+                        <p><span>Nigeria</span> Lagos</p>
+                    </div>
+        
+                    <div>
+                        <i class="fa fa-phone"></i>
+                        <p>+23480-3781-9461</p>
+                    </div>
+                    <div>
+                        <i class="fa fa-envelope"></i>
+                        <p><a href="mailto:eokereke47@gmail.com">eokereke47@gmail.com</a></p>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+
+        <div class="box">
+            <div class="content">
+                <div class="right">
+
+                <p class="footer-company-about">
+                    <span>About the company</span>
+                    <strong>Event XYZ</strong> is an Event booking channel where you can find fun  Events 
+                      all around Nigeria.
+                </p>
+                <div class="footer-icons">
+                    <a href="#"><i class="fa fa-facebook"></i></a>
+                    <a href="#"><i class="fa fa-instagram"></i></a>
+                    <a href="#"><i class="fa fa-linkedin"></i></a>
+                    <a href="#"><i class="fa fa-twitter"></i></a>
+                    <a href="#"><i class="fa fa-youtube"></i></a>
+                </div>
+            </div>
+
+                
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<!-- custom js file link  -->
+<script src="{% static '/js/script.js' %}"></script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-EZ1VK5SFBE"></script>
+
+
+</body>
+</html>
+

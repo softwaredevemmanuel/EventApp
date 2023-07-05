@@ -1,0 +1,135 @@
+{%extends 'home.html' %}
+
+{%block home%}
+
+{% if messages %}
+    {% for message in messages %}
+    {% if message.tags == "error" %}
+        <div class="error">
+            {{ message }}
+        </div>
+    {% else %}
+        <div class="success">{{ message }}</div>
+    {% endif %}
+    {% endfor %}
+{% endif %}
+
+<section class="home" id="home">
+
+    <div class="content">
+        <h3>Fun and <span>Exciting</span> Event experience</h3>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam libero nostrum veniam facere tempore nisi.</p>
+        <!-- <a href="" class="btn">View Events</a> -->
+    </div>
+
+    
+</section>
+{% if messages %}
+    {% for message in messages %}
+    {% if message.tags == "error" %}
+        <div class="error">
+            {{ message }}
+        </div>
+    {% else %}
+        <div class="success">{{ message }}</div>
+    {% endif %}
+    {% endfor %}
+{% endif %}
+
+<section class="blogs" id="blogs">
+    <div class="myevent">
+
+        <h1 class="heading"> <span>Events</span> </h1>
+
+        <div class="box-container">
+        
+
+                {% for event in object_list %}
+
+                <div class="box" > 
+                    <a href="{%url 'free_event_details_page' event.pk%}">
+                        <div class="myimage">
+                            <img src="{{event.header_images.url}}" alt="">
+                        </div>
+                    <div class="content">
+                        <div class="icons">
+                            <p>{{event.event_name}} </p>
+                        </div>
+                        <div class="icons">
+                        <p><i class="fas fa-calendar"></i>Date <i>{{event.event_date}}</i> </p>
+                        </div>
+                        <div class="icons">
+                            <p><i class="fas fa-calendar"></i>Time <i>{{event.event_time}}</i> </p>
+                        </div>
+
+                        {%if event.price%}
+                        <div class="icons">
+                            <p><i class="fas fa-money-check"></i>Fee <i>N{{event.price}}</i> </p>
+                        </div>
+                        {%else%}
+                        <div class="icons">
+                            <p><i class="fas fa-money-check"></i> Fee:- <span style="color: green; font: 1em sans-serif;;">FREE</span> </p>
+                        </div>
+                        {%endif%}
+
+                        {%if not event.expired_event%}
+                            <h3>View Event Details</h3>
+                        {%else%}
+                            <h3 style="color:orange;" >Event Has EXPIRED</h3>
+                        {%endif%}
+                        
+                    </div>
+                    </a>
+                </div>
+                {%endfor%}
+            
+
+        </div>
+    </div>
+
+    <div class="browse">
+        <div>
+            <ul class="page">
+                {% if is_paginated %}        
+                    {% if page_obj.has_previous%}
+                        <a href="?page=1"><li>&laquo;&laquo;</li></a>
+                        <a href="?page={{ page_obj.previous_page_number }}"><li>&laquo; Prev</li></a>
+                    {% else %}
+                        <a ><li><span>&laquo;</span></li></a>
+                      
+                    {% endif %}
+
+                    {% for i in paginator.page_range %}
+                        {% if page_obj.number == i %}
+                            <a class="active"><li>{{ i }}</li></a>
+                            {% elif i > page_obj.number and i < page_obj.number|add:5 %}
+                            <a href="?page={{ i }}"><li>{{ i }}</li></a>
+                            
+                        {% endif %}
+                    {% endfor %}
+                   
+
+                    {% if page_obj.has_next %}
+                        <li>.....</li>
+
+                        <a href="?page={{ page_obj.next_page_number }}"><li>Next &raquo;</li></a>
+                        <a href="?page={{ page_obj.paginator.num_pages }}"><li>&raquo;&raquo;</li></a>
+                        <a href="?page={{ page_obj.paginator.num_pages }}"><li>{{ page_obj.paginator.num_pages }}</li></a>
+
+
+                    {%endif%}
+                {%else%}
+                    <a ><li><span>&laquo;</span></li></a>       
+                    <a ><li><span>&raquo;</span></li></a>
+
+                
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+
+</section>
+
+
+  
+{%endblock%}

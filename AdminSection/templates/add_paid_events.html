@@ -1,0 +1,141 @@
+{%extends 'base.html' %}
+{% block content%}
+
+{% if user.is_superuser %}
+    <div class="messages">
+        {% for message in messages %}
+            <div class="alert alert-success" style="color:green;"> {{ message }}</div>
+        {% endfor %}
+    </div>
+
+
+<div class="page-content">
+            
+    <div class="main_container">
+        <div class="container">
+  
+          <form class = "box" action= "{% url 'create_paid_event' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form first">
+              <div class="details personal">
+                <span class="title">Personal Details</span>
+  
+                <div class="fields">
+                  <div class="input-field">
+                    <label>Event Name</label>
+                    <input type="text" required onkeyup="this.setAttribute('value', this.value);" name="event_name" placeholder="Enter Event Name" value="" >
+                  </div>
+  
+                  <div class="input-field">
+                    <label>Location</label>
+                    <select name="location" id="select">
+                      <option value="" selected="selected">- Select State -</option>
+                      <option>ABUJA FCT</option>
+                      <option>ABIA</option>
+                      <option>ADAMAWA</option>
+                      <option>AKWA IBOM</option>
+                      <option>ANAMBRA</option>
+                      <option>BAUCHI</option>
+                      <option>BAYELSA</option>
+                      <option>BENUE</option>
+                      <option>BORNO</option>
+                      <option>CROSS RIVER</option>
+                      <option>DELTA</option>
+                      <option>EBONYI</option>
+                      <option>EDO</option>
+                      <option>EKITI</option>
+                      <option>ENUGU</option>
+                      <option>GOMBE</option>
+                      <option>IMO</option>
+                      <option>JIGAWA</option>
+                      <option>KADUNA</option>
+                      <option>KANO</option>
+                      <option>KATSINA</option>
+                      <option>KEBBI</option>
+                      <option>KOGI</option>
+                      <option>KWARA</option>
+                      <option>LAGOS</option>
+                      <option>NASSARAWA</option>
+                      <option>NIGER</option>
+                      <option>OGUN</option>
+                      <option>ONDO</option>
+                      <option>OSUN</option>
+                      <option>OYO</option>
+                      <option>PLATEAU</option>
+                      <option>RIVERS</option>
+                      <option>SOKOTO</option>
+                      <option>TARABA</option>
+                      <option>YOBE</option>
+                      <option>ZAMFARA</option>
+                  </select>
+                  </div>
+  
+  
+                  <div class="input-field">
+                    <label>Date</label>
+                    <input type="date" name="event_date" placeholder="Enter Date" required>
+
+                  </div>
+
+                  <div class="input-field">
+                    <label>Time</label>
+                    <input type="time" name="event_time" placeholder="Enter Time" required>
+
+                  </div>
+  
+                  <div class="input-field">
+                    <label>Price</label>
+                    <input type="number" name="price" placeholder="Event Fee" required>
+                  </div>
+  
+                  <div class="input-field">
+                    <label>Space Capacity</label>
+                    <input type="number" name="space_capacity" placeholder="Space Capacity" required>
+                  </div>
+                  
+  
+                  <div class="input-field">
+                    <label>End date for registration</label>
+                    <input type="datetime-local" name="event_end_date" required>
+                  </div>
+
+                  <div class="input-field">
+                    <label for="avatar">Choose a profile picture:</label>
+                    <input type="file" name="header_images" required accept="image/*">
+                  </div>
+        
+                </div>
+              </div>
+  
+              <div class="details ID">
+              
+                <div class="textarea">
+                  <div class="input-field">
+                    <label>Description</label>
+                    <textarea name="description" required placeholder="Details of the event"></textarea>
+                </div>
+                </div>
+  
+                <button class="nextBtn" type="submit" name="sign-in">
+                  <span class="btnText">Submit</span>
+                  <i class="uil uil-navigator"></i>
+                </button>
+
+              </div>
+            </div>
+        </div>
+      </div>
+
+</div>
+  
+    {%else%}
+
+    <div style="color:red;"> You are not an admin. </div>
+
+{% endif %}
+
+
+
+
+{%endblock%}
+

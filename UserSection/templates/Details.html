@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Event details page</title>
+
+  <link rel="stylesheet" href="{% static '/css/details_style.css' %}">
+
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/3b31762e2b.js" crossorigin="anonymous"></script>
+  {% comment %} <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous"> {% endcomment %}
+
+
+</head>
+
+<body>
+  {% comment %} <nav>
+    <div class="containers nav-wrapper">
+        <div class="brand">
+          <a href="{%url 'user_events_page' %}">
+            <img src="{% static 'image/logoe.PNG' %}" width="50">
+          </a>
+
+            <a href="{%url 'user_events_page' %}">
+
+            <span><strong style="color:white">Event XYZ</strong></span>
+          </a>
+        </div>
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <ul class="nav-list">
+            
+            <li>
+                <a href="#">Services</a>
+               
+                <ul class="dropdown-list">
+                    <li><a href="{% url 'order_by_date_accend' %}">Date Accending</a></li>
+                    <li><a href="{% url 'order_by_date_decend' %}">Date Decending</a></li>
+                    <li><a href="{% url 'free_event_page' %}">Free Events</a></li>
+                    <li><a href="{% url 'paid_event_page' %}">Paid Events</a></li>
+                </ul>
+            </li>
+
+            {%if not  user.is_superuser %}
+            <li>
+                <a href="#">Admin</a>
+                <form class = "login-form" action= "{% url 'login' %}" method="POST">
+                    {% csrf_token %}
+                <ul class="form">
+                    <li><h3 style="color:black">Enter Login Details</h3></li>
+                    <li><input class="box" type="text" required onkeyup="this.setAttribute('value', this.value);" name="username" placeholder="Username" value=""></li>
+                    <li><input class="box" type="password" required onkeyup="this.setAttribute('value', this.value);" name="password" placeholder="Password" value=""></li>
+                    <li><input type="submit" name="sign-in" value="Log In" class="btn"></li>
+                </ul>
+            </form>
+
+            </li>
+            {%else%}
+            <li>
+                <a href="#">Hello {{user}}</a>
+                <ul class="dropdown-list">
+                    <li><input type="submit" name="log-out" value="Log Out" class="btn"></li><br>
+                    <li><a href="{%url 'admin_events_page' %}">View Admin Dashboard</a></li>
+                </ul>
+            </form>
+
+            </li>
+            {%endif%}
+           
+        </ul>
+    </div>
+</nav> {% endcomment %}
+<script src="{% static '/js/script.js' %}"></script>
+    
+
+  <main>
+    <a href="{% url 'user_events_page' %}">
+        <button> <i class="fa fa-arrow-left">Back</i> </button>
+    </a>
+
+      {%block details%}
+
+      
+      {%endblock%}
+
+      
+  </main>
+
+  {% comment %} <div class="footer" id="footer">
+
+    <div class="box-container">
+
+        <div class="box">
+            <div class="content">
+                <div class="footer-left">
+
+                    <h4>Emma<span>Developer</span></h4>
+
+                    <p class="footer-links">
+                        <a href="#">Home</a>
+                        |
+                        <a href="#">About</a>
+                        |
+                        <a href="#">Contact</a>
+                        |
+                        <a href="#">Blog</a>
+                    </p>
+
+                    <p class="footer-company-name">Copyright © 2021 <strong>EmmaDeveloper</strong> All rights reserved</p>
+                
+                </div>
+            </div>
+        </div>
+
+        <div class="box">
+            <div class="content">
+                <div class="footer-center">
+                    <div>
+                        <i class="fa fa-map-marker"></i>
+                        <p><span>Nigeria</span> Lagos</p>
+                    </div>
+        
+                    <div>
+                        <i class="fa fa-phone"></i>
+                        <p>+23480-3781-9461</p>
+                    </div>
+                    <div>
+                        <i class="fa fa-envelope"></i>
+                        <p><a href="mailto:eokereke47@gmail.com">eokereke47@gmail.com</a></p>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+
+        <div class="box">
+            <div class="content">
+                <div class="right">
+
+                <p class="footer-company-about">
+                    <span>About the company</span>
+                    <strong>Event XYZ</strong> is an Event booking channel where you can find fun  Events 
+                      all around Nigeria.
+                </p>
+                <div class="footer-icons">
+                    <a href="#"><i class="fa fa-facebook"></i></a>
+                    <a href="#"><i class="fa fa-instagram"></i></a>
+                    <a href="#"><i class="fa fa-linkedin"></i></a>
+                    <a href="#"><i class="fa fa-twitter"></i></a>
+                    <a href="#"><i class="fa fa-youtube"></i></a>
+                </div>
+            </div>
+
+                
+            </div>
+        </div>
+    </div>
+
+</div> {% endcomment %}
+
+
+  <!-- 
+    - ionicon link
+  -->
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+</body>
+
+</html>
+

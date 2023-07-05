@@ -1,0 +1,195 @@
+{% extends 'home.html' %}
+
+{%block details%}
+<section>
+  <div class="product" aria-label="product">
+    <div class="detailscontainer">
+
+      <div class="product-slides">
+            <div class="slider-banner" data-slider>
+              <div class="product-banner">
+                <img src = "{{event.header_images.url}}" width=400 height = 400 >
+              </div>
+            </div>
+      </div>
+
+      <div class="product-content">
+        <div class="pcontent">
+
+          <p>Event Location <span class="product-subtitle">{{event.location}}</span></p>
+
+          <h1 class="h1 product-title">{{event.event_name}}  </h1>
+
+          <p class="product-text">
+            {{event.description}}
+          </p>
+
+        {%if event.price%}
+        <div class="wrapper">
+
+          <span class="price" data-total-price>Event Fee: N{{event.price}}</span>
+
+        </div>
+        {%endif%}
+        {%if event.space_capacity%}
+        <div class="wrapper">
+          <span class="price" data-total-price>Space Capacity: </span>
+          <span class="badge">{{event.space_capacity}}</span>
+        </div>
+        {%endif%}
+
+        <div class="wrapper">
+          {%if event.space_capacity%}
+            {%if event.bookings == 0%}
+            <span class="badge">{{event.bookings}}</span>
+            <span class="price" data-total-price>Nobody has Registered: </span>
+            {%elif event.bookings == 1%}
+            <span class="badge">{{event.bookings}}</span>
+            <span class="price" data-total-price>Person have Registered: </span>
+            {%else%}
+          <span class="badge">{{event.bookings}}</span>
+          <span class="price" data-total-price>People have Registered: </span>
+          {%endif%}
+          
+      
+          <span class="del" style="color:red">Slot Left: {{event.slot_left}}</span>
+          {%endif%}
+
+
+        </div>
+
+        <div class="wrapper">
+          <span class="price" data-total-price>Date: </span>
+          <span class="badge">{{event.event_date}}</span>
+        </div>
+
+        <div class="wrapper">
+          <span class="price" data-total-price>Register Before: </span>
+          <span class="badge">{{event.event_end_date}}</span>
+        </div>
+
+
+        <div class="wrapper">
+          <span class="price" data-total-price> Time </span>
+          <span class="badge">{{event.event_time}} </span>
+        </div>
+
+        {%if event.event_end_date%}
+          {%if event.slot_left != 0%}
+            <div class="wrapper">
+              <span class="price" data-total-price>Registration closes in : </span>
+              <span class="del" style="color:red">{{event.bookDate}} </span>
+            </div>
+            {%else%}
+            <span class="price" data-total-price> </span>
+
+          {%endif%}
+        {%endif%}
+
+
+
+        {%if event.expired_event%}
+          <span style= "color:red"> EVENT HAS EXPIRED </span>
+        {%else%}
+            <span class="badge"> Event Upcoming</span>
+
+        {%endif%}
+
+
+        {%if not event.price%}
+
+              <form action="{% url 'register_free' event.pk %}" method="post" class="myform">
+                {% csrf_token %}
+
+                  {%if not event.expired_event%}
+
+                      {%if not event.expired_reg%}
+
+                            <h2>Register for this Free Events</h2>
+                            <div class="">
+                                <label class="">Email address</label>
+                                <input type="email" class="input" id="" aria-describedby="emailHelp" required onkeyup="this.setAttribute('value', this.value);" name="email"  placeholder="example@gmail.com" value="">
+                            </div>
+                            <div class="">
+                                <label class="">Phone Number</label>
+                                <input type="number" class="input" id="" required onkeyup="this.setAttribute('value', this.value);" name="phone" placeholder="Phone Number" value="">
+                            </div>
+                            <div class="">
+                                <input type="checkbox" name="poll" id="exampleRadios1" value="option1" required>
+                                <label class="form-check-label" for="exampleRadios1">I have Read Terms and Conditions</label>
+                            </div>
+
+                            <div class="">
+                                <input type="checkbox" name="event_id" id="exampleRadios12" value="option2" required>
+                                <label class="form-check-label" for="exampleRadios1">I agree to abide to rules and regulations of the event</label>
+                            </div>
+
+                            <div>
+                            <button type = "submit" class="cart-btn">
+                                
+                                <span class="span">Register</span>
+
+                            </button>
+                            </div>
+                          {%else%}
+                          <h2>Registeration has ended</h2>
+                          {%endif%}
+
+
+                  {%endif%}
+              </form>
+              
+        {%else%}
+              <form action="{% url 'vote' event.pk %}" method="post" class="myform">
+                          {% csrf_token %}
+
+                  {%if not event.expired_reg%}
+                      {%if event.slot_left != 0%}
+
+                            <h2>Register for this Paid Event</h2>
+                            <div class="">
+                                <label class="">Email address</label>
+                                <input type="email" class="input" id="" aria-describedby="emailHelp" required onkeyup="this.setAttribute('value', this.value);" name="email"  placeholder="example@gmail.com" value="">
+                            </div>
+                            <div class="">
+                                <label class="">Phone Number</label>
+                                <input type="number" class="input" id="" required onkeyup="this.setAttribute('value', this.value);" name="phone" placeholder="Phone Number" value="">
+                            </div>
+                            <div class="">
+                                <input type="checkbox" name="poll" id="exampleRadios1" value="option1" required>
+                                <label class="form-check-label" for="exampleRadios1">I agree to abide to rules and regulations of the event</label>
+                            </div>
+
+                            <div class="">
+                                <input type="checkbox" name="event_id" id="exampleRadios12" value="option2" required>
+                                <label class="form-check-label" for="exampleRadios1">I agree that fees are non refundable</label>
+                            </div>
+
+                            <div>
+                            <button type = "submit" class="cart-btn">
+                                
+                                <span class="span">Register</span>
+
+                            </button>
+                            </div>
+                      {%else%}
+                        <h2>Maximum Registration reached</h2>
+                      {%endif%}
+
+                  {%else%}
+                  <h2>Registeration has ended</h2>
+
+                  {%endif%}
+              </form>
+
+        {%endif%}
+          
+      </div>
+      </div>
+
+
+    </div>
+  </div>
+  </section>
+
+  {%endblock%}

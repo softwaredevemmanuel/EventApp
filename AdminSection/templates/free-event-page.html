@@ -1,0 +1,224 @@
+{%extends 'base.html' %}
+
+{%block details%}
+
+{% if user.is_superuser %}
+
+<div class="analytics">
+
+    <div class="card">
+        <div class="card-head">
+            <h2></h2>
+            <span class="las la-user-friends"></span>
+        </div>
+        <div class="card-progress">
+            <small>Fully Paid</small>
+            <div class="card-indicator">
+                <div class="indicator one" style="width: 60%"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-head">
+            <h2></h2>
+            <span class="las la-eye"></span>
+        </div>
+        <div class="card-progress">
+            <small>Attempted Registration</small>
+            <div class="card-indicator">
+                <div class="indicator two" style="width: 80%"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-head">
+            <h2></h2>
+            <span class="las la-shopping-cart"></span>
+        </div>
+        <div class="card-progress">
+            <small>Total revenue made</small>
+            <div class="card-indicator">
+                <div class="indicator three" style="width: 65%"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-head">
+            <h2></h2>
+            <span class="las la-envelope"></span>
+        </div>
+        <div class="card-progress">
+            <small>Expected Revenue</small>
+            <div class="card-indicator">
+                <div class="indicator four" style="width: 90%"></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{%endif%}
+{%endblock%}
+
+{% block content%}
+{% load static %}
+
+{% if user.is_superuser %}
+{% for message in messages %}
+          <div  style="text-align: center; color:green;"><strong>{{message}}</strong></div>
+{% endfor %}
+
+
+
+<div class="record-header">    
+    
+
+    <div class="browse">
+       <input type="search" placeholder="Search" class="record-search">
+        <select name="" id="">
+            <option value="">All Events</option>
+            <option value="">Paid Events</option>
+            <option value="">Free Events</option>
+        </select>
+    </div>
+</div>
+
+<table width="100%">
+        <thead>
+            <tr>
+                <th>EVENT ID</th>
+                <th><span class="las la-sort"></span> NAME / LOCATION</th>
+                <th><span class="las la-sort"></span> FEE</th>
+                <th><span class="las la-sort"></span> EVENT DATE</th>
+                <th><span class="las la-sort"></span> Registration</th>
+                <th><span class="las la-sort"></span> Capacity</th>
+                <th><span class="las la-sort"></span> ACTIONS</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for event in object_list %}
+            {%if event.price == Null%}
+
+
+            <tr data-href="{% url 'admin_details_page' event.pk%}"> 
+                <td> <a href="/admin/all-customers.html">{{event.id}} </a> </td>
+                <td>
+                    <div class="client">
+                        <div class="client-img bg-img" style="background-image: url({% static 'img/3.jpeg' %})"></div>
+
+                        <div class="client-info">
+                            <h4>{{event.event_name}}</h4>
+                            <small>{{event.location}}</small>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    {%if event.price%}
+                        <span style="color: red;">N{{event.price}}</span>
+                    {%else%}
+                        <span style="color: green;">Free</span> 
+                    {%endif%}
+                </td>
+
+                <td style="color: green;">
+                    {{event.event_date}}
+                </td>
+
+                <td style="color: green;">
+                    {%if event.expired_event%}
+                        <span style= "color:red"> Ended</span>
+                    {%else%}
+                        Ongoing
+                    {%endif%}
+        
+                </td>
+                <td>
+                    {%if event.space_capacity%}
+                        {{event.space_capacity}}
+                    {%else%}
+                        Unlimited
+                    {%endif%}
+                </td>
+                <td>
+                    <div class="hello">
+                            {%if user.is_superuser%}
+                                {%if event.expired_event%}
+                                <span class="las la-ban" style="color: rgb(176, 177, 181);"> Edit</span>
+                                {%else%}
+                                <a href="{% url 'update_event' event.pk%}"><span class="las la-edit" style="color: #0f4032;"> Edit </span></a>
+                                {%endif%}
+                                    <a href="{% url 'delete_event' event.pk%}"> <span class="las la-trash" style="color: red;">  Delete </span></a>
+
+                                {%if event.is_cancelled == 0%}
+                                    <a href="{% url 'cancel_event' event.pk%}"> <span class="las la-ban" style="color: red;"> Cancel</span></a>
+                                {%endif%}
+
+                            {%endif%}
+                    
+
+                    </div>
+                </td>
+            </tr>
+            {%endif%}
+        {% endfor %}
+
+                              
+
+    </tbody>
+</table> 
+
+<div class="record-header">
+                       
+
+    <div class="browse">
+        <section>
+            <ul class="page">
+                {% if is_paginated %}        
+                    {% if page_obj.has_previous%}
+                        <a href="?page=1"><li>&laquo;&laquo;</li></a>
+                        <a href="?page={{ page_obj.previous_page_number }}"><li>&laquo;</li></a>
+                    {% else %}
+                        <a ><li><span>&laquo;</span></li></a>
+                      
+                    {% endif %}
+
+                    {% for i in paginator.page_range %}
+                        {% if page_obj.number == i %}
+                            <a class="active"><li>{{ i }}</li></a>
+                            {% elif i > page_obj.number and i < page_obj.number|add:5 %}
+                            <a href="?page={{ i }}"><li>{{ i }}</li></a>
+                            
+                        {% endif %}
+                    {% endfor %}
+                   
+
+                    {% if page_obj.has_next %}
+                        <li>.....</li>
+
+                        <a href="?page={{ page_obj.paginator.num_pages }}"><li>{{ page_obj.paginator.num_pages }}</li></a>
+                        <a href="?page={{ page_obj.next_page_number }}"><li>&raquo;</li></a>
+                        <a href="?page={{ page_obj.paginator.num_pages }}"><li>&raquo;&raquo;</li></a>
+
+                    {%endif%}
+                {%else%}
+                    <a ><li><span>&laquo;</span></li></a>       
+                    <a ><li><span>&raquo;</span></li></a>
+
+                
+                {% endif %}
+            </ul>
+        </section>
+
+                
+    </div>
+</div>
+
+{%else%}
+
+    <div style="color:red;"> You are not an admin. </div>
+
+{% endif %}
+</div> 
+{%endblock%}

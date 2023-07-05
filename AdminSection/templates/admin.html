@@ -1,0 +1,180 @@
+{%extends 'base.html' %}
+
+{%block details%}
+{% if user.is_superuser %}
+
+<div class="analytics">
+
+    <div class="card">
+        <div class="card-head">
+            <h2>{{paid_candidate_count}}</h2>
+            <span class="las la-user-friends"></span>
+        </div>
+        <div class="card-progress">
+            <small>Fully Paid</small>
+            <div class="card-indicator">
+                <div class="indicator one" style="width: 60%"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-head">
+            <h2>{{reg_candidate_count}}</h2>
+            <span class="las la-eye"></span>
+        </div>
+        <div class="card-progress">
+            <small>Attempted Registration</small>
+            <div class="card-indicator">
+                <div class="indicator two" style="width: 80%"></div>
+            </div>
+        </div>
+    </div>
+
+    {%if total_it%}
+    <div class="card">
+        <div class="card-head">
+            <h2>N{{total_it}}</h2>
+            <span class="las la-shopping-cart"></span>
+        </div>
+        <div class="card-progress">
+            <small>Total revenue made</small>
+            <div class="card-indicator">
+                <div class="indicator three" style="width: 65%"></div>
+            </div>
+        </div>
+    </div>
+    {%endif%}
+
+    {%if c%}
+    <div class="card">
+        <div class="card-head">
+            <h2>N{{c}}</h2>
+            <span class="las la-envelope"></span>
+        </div>
+        <div class="card-progress">
+            <small>Expected Revenue</small>
+            <div class="card-indicator">
+                <div class="indicator four" style="width: 90%"></div>
+            </div>
+        </div>
+    </div>
+    {%endif%}
+
+
+</div>
+
+{% endif %}
+{%endblock%}
+
+
+
+{% block content%}
+
+{% if user.is_superuser %}
+
+<div class="record-header">
+                       
+
+    <div class="browse">
+       <input type="search" placeholder="Search" class="record-search">
+        <select name="" id="">
+            <option value="">All Events</option>
+            <option value="">Paid Events</option>
+            <option value="">Free Events</option>
+        </select>
+    </div>
+</div>
+
+<div>
+    <table width="100%">
+        <thead>
+            <tr>
+                <th>USER REF</th>
+                <th><span class="las la-sort"></span> USER NAME / EMAIL</th>
+                <th><span class="las la-sort"></span> EVENT ID</th>
+                <th><span class="las la-sort"></span> EVENT NAME</th>
+                <th><span class="las la-sort"></span> STATUS</th>
+                <th><span class="las la-sort"></span> ACTION</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for candidates in candidate %}
+
+            <tr>
+                <td style="font-size: 8px; max-width: 270px;" > 
+                    <div style="padding: 10px;" >
+                        {{candidates.ref}}
+                    </div>
+                </td>
+                <td>
+                    <div class="client">
+                        <div class="client-info" style="max-width: 10px;">
+                            <h4>    {{candidates.phone}} </h4>
+                            <small> {{candidates.email}} </small>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    {{candidates.event_id}}
+                </td>
+                <td>
+                    {{candidates.event_name}}
+                </td>
+                <td>
+                    {%if candidates.verified%}
+                    <div class="client-info" style="max-width: 10px;">
+                        <h3>{{candidates.amount}}</h3>
+                        <span class="paid">Paid</span>
+                    </div>
+                    {%else%}
+                    <div class="client-info" style="max-width: 10px;">
+                        <h3>{{candidates.amount}}</h3>
+                        <span class="not-paid">Failled</span>
+                    </div>
+                    {%endif%}
+                </td>
+                <td>
+                    <div class="">
+                        <span class="las la-edit" style="color: blue;">Edit</span>
+                    </div>
+                </td>
+            </tr>
+               
+            {%endfor%}
+
+        </tbody>
+
+    </table>
+</div>
+
+{%else%}
+
+    <div style="color:red;"> You are not an admin. </div>
+
+{% endif %}
+
+{% if is_paginated %}
+<ul>
+  {% if page_obj.has_previous %}
+    <li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+  {% else %}
+    <li><span>&laquo;</span></li>
+  {% endif %}
+  {% for i in paginator.page_range %}
+  {% if page_obj.number == i %}
+      <li><span>{{ i }} <span>(current)</span></span></li>
+  {% else %}
+      <li><a href="?page={{ i }}">{{ i }}</a></li>
+  {% endif %}
+  {% endfor %}
+  {% if page_obj.has_next %}
+      <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+  {% else %}
+      <li><span>&raquo;</span></li>
+  {% endif %}
+</ul>
+{% endif %}
+</div> 
+
+{%endblock%}

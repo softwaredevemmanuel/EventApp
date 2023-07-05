@@ -1,0 +1,137 @@
+{%extends 'base.html' %}
+{% block content%}
+{% load static %}
+
+{% for message in messages %}
+        <div class="alert">
+          <div style="text-align: center"><strong>{{message}}</strong></div>
+        </div>
+    {% endfor %}
+
+
+{% if user.is_superuser %}
+
+<div class="records">
+                    
+    <section class="section product" aria-label="product">
+        <div class="container">
+
+            <div class="product-slides">
+
+                <div class="slider-banner" data-slider>
+                    <figure class="product-banner">
+                        {%if event.header_images%}
+                            <img src = "{{event.header_images.url}}" width=600 height = 600 loading="lazy" 
+                            alt="Nike Sneaker" class="img-cover">
+
+                        {%endif%}
+                      
+                    </figure>
+                </div>
+
+            </div>
+
+            <div class="product-content">
+
+                <p>Event Location:- <span class="product-subtitle">{{event.location}}</span></p>
+
+                <h1 class="h1 product-title">{{event.event_name}} </h1>
+
+                <p class="product-text">
+                  
+                    {{event.description}}
+                </p>
+
+                <div class="wrapper">
+                    {%if event.price%}
+                    <span class="price" data-total-price>Event Fee: N{{event.price}}</span>   
+                    <span class="badge">Available</span>
+                 
+                    {%else%}
+                        Event Fee: Free
+                    
+                    {%endif%}
+
+
+                </div>
+                <div class="wrapper">
+                    {%if event.space_capacity%}
+                   
+                    <span class="price" data-total-price>Space Capacity: </span>
+                    <span class="badge">{{event.space_capacity}}</span>
+                    {%endif%}
+                </div>
+
+                <div class="wrapper">
+                    <span class="badge">{{event.bookings}}</span>
+                    <span class="price" data-total-price>People have Registered: </span>
+
+                    {%if event.slot_left == 0%}
+                        {%if event.space_capacity != Null%}
+                            <span class="del">Slot Left: {{event.space_capacity}}</span>
+                        {%endif%}
+                    {%else%}
+                        <span class="del">Slot Left: {{event.slot_left}}</span>
+                    {%endif%}
+
+
+                </div>
+
+                <div class="wrapper">
+                    <span class="price" data-total-price>Date: </span>
+                    <span class="badge">{{event.event_date}}</span>
+                </div>
+
+                <div class="wrapper">
+                    <span class="price" data-total-price> Time </span>
+                    <span class="badge">{{event.mytime}}</span>
+                </div>
+
+
+                <div class="wrapper">
+                    <span class="price" data-total-price> Event </span>
+                    <span class="badge">upcoming</span>
+                </div>
+
+                <div class="wrapper">
+                    {%if event.event_end_date%}
+                        <span class="price" data-total-price>Registration closes in : </span>
+                        <span class="del">{{event.bookDate}}</span>
+                    {%endif%}
+                  </div>
+
+                  {%if not event.price%}
+                  <div>
+                    <button class="cart-btn">
+                      
+                      <span class="span"><a href="{% url 'candidate-free' event.pk%}">View Registered Users</a></span>
+  
+                    </button>
+                  </div>
+                  {%else%}
+                  <div>
+                    <button class="cart-btn">
+                      
+                      <span class="span"><a href="{% url 'candidate' event.pk%}">View Registered Users</a></span>
+  
+                    </button>
+                  </div>
+                  {%endif%}
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+
+</div>
+
+{%else%}
+
+    <div style="color:red;"> You are not an admin. </div>
+
+{% endif %}
+
+{%endblock%}

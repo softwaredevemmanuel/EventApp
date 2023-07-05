@@ -1,0 +1,33 @@
+{%extends 'base.html'%}
+
+{%block content %}
+
+{% if user.is_superuser %}
+<div style="text-align:center; background:#b0c2b0; margin:30px; padding:20px; border-radius:10px">
+
+    <h2 style="text-align:center;"> Delete Events </h2>
+
+    <h5  style="text-align:center; color:red"> Are you sure you want to delete {{event.event_name}} event? </h5>
+    <div class="form-group">
+        <form method="POST">
+        {% csrf_token %}
+
+        <button style="margin:20px; color:white; background:red;"> Delete </button>
+        </form>
+        <button>         
+            <a href="{%url 'admin_events_page' %}">
+                Cancel        
+            </a>
+        </button>
+
+    
+    </div>
+
+</div>
+{%else%}
+<br>
+<br>
+<div class="alert alert-danger"> You are not an admin. </div>
+
+{% endif %}
+{%endblock%}
